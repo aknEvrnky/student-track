@@ -21,6 +21,8 @@ class CourseTypeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -78,5 +80,10 @@ class CourseTypeResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return 'Kurs Tipleri';
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Kurslar';
     }
 }
