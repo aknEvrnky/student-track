@@ -57,8 +57,11 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                    ->label('Kurslar')
+                    ->label('Kaynaklar')
                     ->icon('heroicon-o-book-open'),
+                NavigationGroup::make()
+                    ->label('Kurslar')
+                    ->icon('heroicon-o-variable'),
             ])
             ->sidebarCollapsibleOnDesktop();
     }

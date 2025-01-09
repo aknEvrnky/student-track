@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CourseTypeResource\Pages;
-use App\Filament\Resources\CourseTypeResource\RelationManagers;
-use App\Models\CourseType;
+use App\Filament\Resources\PublisherResource\Pages;
+use App\Filament\Resources\PublisherResource\RelationManagers;
+use App\Models\Publisher;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,15 +13,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CourseTypeResource extends Resource
+class PublisherResource extends Resource
 {
-    protected static ?string $model = CourseType::class;
+    protected static ?string $model = Publisher::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-funnel';
+    protected static ?string $navigationIcon = 'heroicon-o-printer';
 
-    protected static ?string $recordTitleAttribute = 'name';
-
-    protected static ?int $navigationSort = 3;
+    protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Form $form): Form
     {
@@ -29,9 +27,9 @@ class CourseTypeResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->label('Başlık')
-                    ->maxLength(255)
+                    ->required()
                     ->columnSpanFull()
-                    ->required(),
+                    ->maxLength(255),
             ]);
     }
 
@@ -41,8 +39,17 @@ class CourseTypeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('Başlık')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Oluşturulma Tarihi')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Güncellenme Tarihi')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -58,32 +65,25 @@ class CourseTypeResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCourseTypes::route('/'),
+            'index' => Pages\ManagePublishers::route('/'),
         ];
     }
 
     public static function getModelLabel(): string
     {
-        return 'Kurs Tipi';
+        return 'Yayınevi';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Kurs Tipleri';
+        return 'Yayınevleri';
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return 'Kurslar';
+        return 'Kaynaklar';
     }
 }
