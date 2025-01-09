@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CourseTypeResource\Pages;
-use App\Filament\Resources\CourseTypeResource\RelationManagers;
-use App\Models\CourseType;
+use App\Filament\Resources\CourseResource\Pages;
+use App\Filament\Resources\CourseResource\RelationManagers;
+use App\Models\Course;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,11 +13,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CourseTypeResource extends Resource
+class CourseResource extends Resource
 {
-    protected static ?string $model = CourseType::class;
+    protected static ?string $model = Course::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-funnel';
+    protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -27,9 +27,9 @@ class CourseTypeResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->label('Başlık')
-                    ->maxLength(255)
+                    ->required()
                     ->columnSpanFull()
-                    ->required(),
+                    ->maxLength(255),
             ]);
     }
 
@@ -39,15 +39,22 @@ class CourseTypeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('Başlık')
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -56,27 +63,20 @@ class CourseTypeResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCourseTypes::route('/'),
+            'index' => Pages\ManageCourses::route('/'),
         ];
     }
 
     public static function getModelLabel(): string
     {
-        return 'Kurs Tipi';
+        return 'Kurs';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Kurs Tipleri';
+        return 'Kurslar';
     }
 }
