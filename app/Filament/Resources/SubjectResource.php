@@ -93,7 +93,7 @@ class SubjectResource extends Resource
                     ->label('Ders')
                 ->getTitleFromRecordUsing(fn (Subject $record) => $record->course->title)
             )
-            ->defaultSort('sort_order');
+            ->reorderable('sort_order');
     }
 
     public static function getRelations(): array
