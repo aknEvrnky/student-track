@@ -16,6 +16,7 @@ class SolvedQuestionRecord extends Model
         'student_id',
         'course_id',
         'book_resource_id',
+        'subject_id',
         'solved_at',
     ];
 
@@ -36,5 +37,10 @@ class SolvedQuestionRecord extends Model
     public function bookResource(): BelongsTo
     {
         return $this->belongsTo(BookResource::class);
+    }
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class);
     }
 }

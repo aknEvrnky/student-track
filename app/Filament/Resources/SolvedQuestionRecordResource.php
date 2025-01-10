@@ -34,6 +34,7 @@ class SolvedQuestionRecordResource extends Resource
                 Forms\Components\TextInput::make('number_of_solved_questions')
                     ->label('Çözülen Soru Sayısı')
                     ->required()
+                    ->suffix('adet')
                     ->numeric(),
                 Forms\Components\Select::make('student_id')
                     ->label('Öğrenci')
@@ -49,6 +50,7 @@ class SolvedQuestionRecordResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('book_resource_id')
                     ->live()
+                    ->searchable()
                     ->relationship('bookResource', 'title', function (Builder $builder, Forms\Get $get) {
                         if ($get('course_id')) {
                             $builder->where('course_id', $get('course_id'));
@@ -58,6 +60,17 @@ class SolvedQuestionRecordResource extends Resource
                     ->label('Kitap')
                     ->preload()
                     ->required(),
+                Forms\Components\Select::make('subject_id')
+                    ->live()
+                    ->relationship('subject', 'title', function (Builder $builder, Forms\Get $get) {
+                        if ($get('course_id')) {
+                            $builder->where('course_id', $get('course_id'));
+                        }
+                    }
+                    )
+                    ->searchable()
+                    ->label('Konu')
+                    ->preload(),
                 Forms\Components\DatePicker::make('solved_at')
                     ->label('Çözülme Tarihi')
                     ->default(now())
@@ -82,8 +95,7 @@ class SolvedQuestionRecordResource extends Resource
                     ]),
                 Tables\Columns\TextColumn::make('student.name')
                     ->label('Öğrenci')
-                    ->visible(fn() => auth()->user()?->isAdmin())
-                    ->numeric(),
+                    ->hidden(fn() => auth()->user()?->isAdmin()),
                 Tables\Columns\TextColumn::make('course.title')
                     ->label('Ders')
                     ->numeric(),
