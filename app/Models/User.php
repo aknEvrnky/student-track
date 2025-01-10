@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
@@ -36,6 +37,11 @@ class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
+    public function isAdmin(): bool
+    {
+        return true;
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -58,5 +64,10 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsToMany(Exam::class, 'exam_user', 'user_id', 'exam_id')
             ->withTimestamps();
+    }
+
+    public function solvedQuestionRecords(): HasMany
+    {
+        return $this->hasMany(SolvedQuestionRecord::class);
     }
 }

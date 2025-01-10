@@ -19,6 +19,8 @@ class ExamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
+    protected static ?int $navigationSort = 4;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -92,5 +94,10 @@ class ExamResource extends Resource
     public static function getPluralModelLabel(): string
     {
         return 'Sınavlar';
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Kurslar';
     }
 }
