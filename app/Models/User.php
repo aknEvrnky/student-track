@@ -4,12 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
@@ -56,6 +58,17 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (User $user) {
+            if ($user->remember_token === null) {
+                $user->remember_token = Str::random(64);
+            }
+        });
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
@@ -70,5 +83,12 @@ class User extends Authenticatable implements FilamentUser
     public function solvedQuestionRecords(): HasMany
     {
         return $this->hasMany(SolvedQuestionRecord::class);
+    }
+
+    public function scopeStudent(Builder $builder): void
+    {
+        $builder->whereHas('roles', function ($query) {
+            $query->where('name', 'student');
+        });
     }
 }

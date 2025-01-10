@@ -23,7 +23,7 @@ class SolvedQuestionRecordPolicy
      */
     public function view(User $user, SolvedQuestionRecord $solvedQuestionRecord): bool
     {
-        return $user->can('view_solved::question::record');
+        return $user->can('view_solved::question::record') && $solvedQuestionRecord->student_id === $user->id;
     }
 
     /**
@@ -39,7 +39,7 @@ class SolvedQuestionRecordPolicy
      */
     public function update(User $user, SolvedQuestionRecord $solvedQuestionRecord): bool
     {
-        return $user->can('update_solved::question::record');
+        return $user->can('update_solved::question::record') && $solvedQuestionRecord->student_id === $user->id;
     }
 
     /**
@@ -47,7 +47,7 @@ class SolvedQuestionRecordPolicy
      */
     public function delete(User $user, SolvedQuestionRecord $solvedQuestionRecord): bool
     {
-        return $user->can('delete_solved::question::record');
+        return $user->can('delete_solved::question::record') && $solvedQuestionRecord->student_id === $user->id;
     }
 
     /**
@@ -63,7 +63,7 @@ class SolvedQuestionRecordPolicy
      */
     public function forceDelete(User $user, SolvedQuestionRecord $solvedQuestionRecord): bool
     {
-        return $user->can('force_delete_solved::question::record');
+        return $user->can('force_delete_solved::question::record') && $solvedQuestionRecord->student_id === $user->id;
     }
 
     /**
@@ -79,7 +79,7 @@ class SolvedQuestionRecordPolicy
      */
     public function restore(User $user, SolvedQuestionRecord $solvedQuestionRecord): bool
     {
-        return $user->can('restore_solved::question::record');
+        return $user->can('restore_solved::question::record') && $solvedQuestionRecord->student_id === $user->id;
     }
 
     /**
@@ -95,7 +95,7 @@ class SolvedQuestionRecordPolicy
      */
     public function replicate(User $user, SolvedQuestionRecord $solvedQuestionRecord): bool
     {
-        return $user->can('replicate_solved::question::record');
+        return $user->can('replicate_solved::question::record') && $solvedQuestionRecord->student_id === $user->id;
     }
 
     /**

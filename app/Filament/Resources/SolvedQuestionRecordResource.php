@@ -32,11 +32,11 @@ class SolvedQuestionRecordResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('number_of_solved_questions')
-                    ->label('Cozulen Soru Sayisi')
+                    ->label('Çözülen Soru Sayısı')
                     ->required()
                     ->numeric(),
                 Forms\Components\Select::make('student_id')
-                    ->label('Ogrenci')
+                    ->label('Öğrenci')
                     ->visible(fn() => auth()->user()?->isAdmin())
                     ->relationship('student', 'name')
                     ->preload()
@@ -59,7 +59,7 @@ class SolvedQuestionRecordResource extends Resource
                     ->preload()
                     ->required(),
                 Forms\Components\DatePicker::make('solved_at')
-                    ->label('Cozulme Tarihi')
+                    ->label('Çözülme Tarihi')
                     ->default(now())
                     ->maxDate(now())
                     ->required(),
@@ -71,17 +71,17 @@ class SolvedQuestionRecordResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('solved_at')
-                    ->label('Cozulme Tarihi')
+                    ->label('Çözülme Tarihi')
                     ->date(),
                 Tables\Columns\TextColumn::make('number_of_solved_questions')
-                    ->label('Cozulen Soru Sayisi')
+                    ->label('Çözülen Soru Sayısı')
                     ->numeric()
                     ->summarize([
                         Average::make(),
                         Sum::make(),
                     ]),
                 Tables\Columns\TextColumn::make('student.name')
-                    ->label('Ogrenci')
+                    ->label('Öğrenci')
                     ->visible(fn() => auth()->user()?->isAdmin())
                     ->numeric(),
                 Tables\Columns\TextColumn::make('course.title')
@@ -91,17 +91,17 @@ class SolvedQuestionRecordResource extends Resource
                     ->label('Kitap')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Olusturulma Tarihi')
+                    ->label('Oluşturulma Tarihi')
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Guncellenme Tarihi')
+                    ->label('Güncellenme Tarihi')
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('student_id')
-                    ->label('Ogrenci')
+                    ->label('Öğrenci')
                     ->preload()
                     ->multiple()
                     ->relationship('student', 'name')
@@ -120,9 +120,9 @@ class SolvedQuestionRecordResource extends Resource
                 QueryBuilder::make('dateFilters')
                     ->constraints([
                         DateConstraint::make('solved_at')
-                            ->label('Cozulme Tarihi'),
+                            ->label('Çözülme Tarihi'),
                         DateConstraint::make('solved_at')
-                            ->label('Cozulme Tarihi'),
+                            ->label('Çözülme Tarihi'),
                     ])
             ])
             ->filtersFormWidth(MaxWidth::ExtraLarge)
@@ -173,12 +173,12 @@ class SolvedQuestionRecordResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'Cozulen Soru Kaydi';
+        return 'Çözülen Soru Kaydı';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Cozulen Soru Kayitlari';
+        return 'Çözülen Soru Kayıtları';
     }
 
     public static function getNavigationGroup(): ?string
