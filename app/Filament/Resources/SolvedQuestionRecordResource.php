@@ -95,7 +95,7 @@ class SolvedQuestionRecordResource extends Resource
                     ]),
                 Tables\Columns\TextColumn::make('student.name')
                     ->label('Öğrenci')
-                    ->hidden(fn() => auth()->user()?->isAdmin()),
+                    ->visible(fn() => auth()->user()?->isAdmin()),
                 Tables\Columns\TextColumn::make('course.title')
                     ->label('Ders')
                     ->numeric(),
