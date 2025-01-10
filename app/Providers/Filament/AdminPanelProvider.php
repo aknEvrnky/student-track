@@ -32,6 +32,9 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Indigo,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->resources([
+                config('filament-logger.activity_resource'),
+            ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
@@ -62,6 +65,9 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Kurslar')
                     ->icon('heroicon-o-variable'),
+                NavigationGroup::make()
+                    ->label('Ayarlar')
+                    ->icon('heroicon-o-cog-6-tooth'),
             ])
             ->sidebarCollapsibleOnDesktop();
     }
